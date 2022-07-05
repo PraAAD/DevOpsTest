@@ -38,7 +38,7 @@ data "archive_file" "zip" {
 		"terraform.tfstate.backup",
 		local.zip_file,
 	]
-	source_dir = path.module
+	source_dir = data.archive_file.module
 	type = "zip"
 
 	// Create the .zip file in the same directory as the index.js file
