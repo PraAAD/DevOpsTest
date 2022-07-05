@@ -91,7 +91,7 @@ resource "aws_lambda_function" "default" {
 	timeout = local.timeout
 
 	// Upload the .zip file Terraform created to AWS
-	filename = local.zip_file
+	filename =  data.archive_file.zip.output_path
 	source_code_hash = data.archive_file.zip.output_base64sha256
 
 	// Connect our IAM resource to our lambda function in AWS
