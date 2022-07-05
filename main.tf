@@ -6,6 +6,12 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
+backend "s3" {
+    bucket = "example-terrform-state"
+    key    = "terraform.tfstate"
+    region = "us-east-1"
+  }
+
 // 2) Setup our lambda parameters and .zip file that will be uploaded to AWS
 locals {
 	// The name of our lambda function when is created in AWS
@@ -38,8 +44,8 @@ data "archive_file" "zip" {
 		"terraform.tfstate.backup",
 		local.zip_file,
 	]
-	source_dir = data.archive_file.module
-	type = "zip"
+	source_dir = path.module
+		type = "zip"
 
 	// Create the .zip file in the same directory as the index.js file
 	output_path = "${path.module}/${local.zip_file}"
