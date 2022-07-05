@@ -6,11 +6,6 @@ provider "aws" {
   region  = "${var.aws_region}"
 }
 
-backend "s3" {
-    bucket = "example-terrform-state"
-    key    = "terraform.tfstate"
-    region = "us-east-1"
-  }
 
 // 2) Setup our lambda parameters and .zip file that will be uploaded to AWS
 locals {
