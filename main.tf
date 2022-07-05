@@ -1,11 +1,10 @@
 variable "aws_region" {
-  default = "us-west-2"
+  default = "us-east-1"
 }
 
 provider "aws" {
   region  = "${var.aws_region}"
 }
-
 
 // 2) Setup our lambda parameters and .zip file that will be uploaded to AWS
 locals {
@@ -40,7 +39,7 @@ data "archive_file" "zip" {
 		local.zip_file,
 	]
 	source_dir = path.module
-		type = "zip"
+	type = "zip"
 
 	// Create the .zip file in the same directory as the index.js file
 	output_path = "${path.module}/${local.zip_file}"
@@ -92,7 +91,7 @@ resource "aws_lambda_function" "default" {
 	timeout = local.timeout
 
 	// Upload the .zip file Terraform created to AWS
-	filename =  data.archive_file.zip.output_path
+	filename = local.zip_file
 	source_code_hash = data.archive_file.zip.output_base64sha256
 
 	// Connect our IAM resource to our lambda function in AWS
